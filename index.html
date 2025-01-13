@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- A meta charset define a codificação de caracteres para UTF-8, importante para suportar caracteres especiais -->
+    <meta charset="UTF-8">
+    
+    <!-- A meta viewport ajuda a garantir que o layout seja responsivo em dispositivos móveis -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Conectando ao Google Fonts para usar a fonte "Prompt" -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Linkando os arquivos CSS com o estilo geral e específico para diferentes componentes -->
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <link rel="stylesheet" href="./styles/PaginaDeLogin.css" />
+    <link rel="stylesheet" href="./styles/CampoDeDigitacao.css" />
+    
+    <!-- Título da página -->
+    <title>Login | CodeConnect</title>
+</head>
+
+<body>
+    <!-- O "root" é o ponto de entrada onde o React vai renderizar os componentes -->
+    <div id="root"></div>
+
+    <!-- Carregamento das bibliotecas do React, ReactDOM e Babel (para compilar o código JSX em tempo real) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"
+        integrity="sha512-8Q6Y9XnTbOE+JNvjBQwJ2H8S+UV4uA6hiRykhdtIyDYZ2TprdNmWOUaKdGzOhyr4dCyk287OejbPvwl7lrfqrQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"
+        integrity="sha512-MOCpqoRoisCTwJ8vQQiciZv0qcpROCidek3GTFS6KTk2+y7munJIlKCVkFCYY+p3ErYFXCjmFjnfTTRSC1OHWQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.3/babel.min.js"
+        integrity="sha512-MIXku7j6pJ0hqd2T4WXZMGerp3BU9B91rfLRDp/McDBNNdnwTD+yLJaz9AHcYXT6k16dYTkG9S2KRPGxaBIfBQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Aqui começa a nossa aplicação em React -->
+    <script type="text/babel">
+        // Componente Titulo - Exibe o título do formulário
+        function Titulo({ children }) {
+            return (
+                <h1 className='form__titulo'>{children}</h1>
+            )
+        }
+
+        // Componente Subtitulo - Exibe o subtítulo do formulário
+        function Subtitulo({ children }) {
+            return (
+                <h2 className='form__texto'>{children}</h2 >
+            )
+        }
+
+        // Componente CampoDeDigitacao - Cria um campo de input reutilizável
+        function CampoDeDigitacao({ label, tipo, placeholder, value, setValor }) {
+            return (
+                <div className='form__campo-digitacao'>
+                    {/* Aqui, estamos criando um campo de input com base no tipo, valor e placeholder passados como props */}
+                    <label for={tipo}>{label}</label>
+                    <input type={tipo}
+                        placeholder={placeholder}
+                        required
+                        id={tipo}
+                        value={value}
+                        onChange={(evento) => setValor(evento.target.value)} />
+                </div>
+            )
+        }
+
+        // Componente Botao - Exibe o botão de envio do formulário
+        function Botao({ children }) {
+            return (
+                <button type='submit' className='form__botao'>{children}</button>
+            )
+        }
+
+        // Componente Checkbox - Exibe o checkbox "Lembrar-me"
+        function Checkbox() {
+            return (
+                <>
+                    <div className='form__campo-checkbox'>
+                        <input type='checkbox' id='lembrar' />
+                        <label for='lembrar' />
+                    </div>
+                    <p className='form__opcoes-texto'>Lembrar-me</p>
+                </>
+            )
+        }
+
+        // Componente Texto - Exibe um parágrafo com base na classe e no conteúdo passados
+        function Texto({ classe, children }) {
+            return (
+                <p className={classe}>{children}</p>
+            )
+        }
+
+        // Componente ItemRedesSociais - Exibe um item de rede social com o link e o nome
+        function ItemRedesSociais({ link, nome }) {
+            return (
+                <li>
+                    <a href={link}>
+                        {/* Aqui, a imagem muda dinamicamente com base no nome da rede social */}
+                        <img src={`./img/${nome}.svg`} alt={`ícone do ${nome}`} />
+                        {nome}
+                    </a>
+                </li>
+            )
+        }
+
+        // Componente Link - Exibe um link simples
+        function Link({ children }) {
+            return (
+                <a href='#' className='container-links__link'>
+                    {children}
+                </a>
+            )
+        }
+
+        // Componente principal PaginaDeLogin - Aqui está a lógica e a estrutura da página de login
+        function PaginaDeLogin() {
+            // Usando o hook useState para gerenciar os estados do email e senha
+            const [email, setEmail] = React.useState('');
+            const [senha, setSenha] = React.useState('');
+
+            // Função handleSubmit para gerenciar o envio do formulário
+            const handleSubmit = (event) => {
+                event.preventDefault(); // Previne o comportamento padrão de envio
+                console.log('email ' + email); // Exibe o email no console
+                console.log('senha ' + senha); // Exibe a senha no console
+            }
+
+            return (
+                <div className='container-login'>
+                    {/* A imagem que aparece na página de login */}
+                    <img src='./img/imagem-login.png' alt='Uma mulher negra com cabelos trançados usando óculos e mexendo no computador' />
+                    <section>
+                        <form onSubmit={handleSubmit}>
+                            <Titulo>Login</Titulo>
+                            <Subtitulo>Boas-vindas! Faça o seu login</Subtitulo>
+                            {/* Passando props para o campo de digitação, como valor e função para atualizar o estado */}
+                            <CampoDeDigitacao label='E-mail ou usuário'
+                                tipo='email'
+                                placeholder='Digite o seu e-mail ou usuário'
+                                value={email}
+                                setValor={setEmail}
+                            />
+                            <CampoDeDigitacao label='Senha'
+                                tipo='password'
+                                placeholder='Digite a sua senha'
+                                value={senha}
+                                setValor={setSenha}
+                            />
+                            <fieldset className='form__opcoes'>
+                                <Checkbox />
+                                <p>
+                                    <a href='#' aria-label='Recuperar senha esquecida'>Esqueci a senha</a>
+                                </p>
+                            </fieldset>
+                            {/* O botão de login */}
+                            <Botao>Login</Botao>
+                        </form>
+                        <div className='container-links'>
+                            <Texto classe='container-links__titulo'>ou entre com outras contas</Texto>
+                            <ul>
+                                {/* Passando o link e nome das redes sociais como props para o ItemRedesSociais */}
+                                <ItemRedesSociais link='https://www.github.com' nome='Github' />
+                                <ItemRedesSociais link='https://www.google.com' nome='Google' />
+                            </ul>
+                            <Texto classe='container-links__texto'>Ainda não tem conta?</Texto>
+                            {/* Link para criar uma conta */}
+                            <Link>Crie seu cadastro!</Link>
+                        </div>
+                    </section>
+                </div>
+            )
+        }
+
+        // Renderizando o componente PaginaDeLogin dentro do elemento "root"
+        ReactDOM.createRoot(document.getElementById('root')).render(<PaginaDeLogin />)
+
+    </script>
+</body>
+
+</html>
